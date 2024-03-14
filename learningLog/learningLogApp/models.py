@@ -17,4 +17,7 @@ class Entrada(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo """
-        return self.texto[:50] + "..."
+        if len(self.texto) >= 50:
+            return self.texto[:50] + " ..."
+        return self.texto
+        

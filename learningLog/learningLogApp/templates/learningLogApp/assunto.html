@@ -1,0 +1,18 @@
+{% extends 'learningLogApp/base.html' %}
+{% block content %}
+    <p>Assunto: {{ assunto }}</p>
+
+    <p>Entradas:</p>
+    <ul>
+    {% for entrada in entradas %}
+        <li>
+            <p>{{ entrada.data_inicial|date:'M d, Y H:i' }}</p>
+            <p>{{ entrada.texto|linebreaks }}</p>
+        </li>
+        {% empty %}
+        <li>
+            Nenhuma entrada foi adicionada a esses assunto ainda.
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}

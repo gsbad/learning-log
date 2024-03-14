@@ -1,0 +1,11 @@
+{% extends "learningLogApp/base.html" %}
+{% block content %}
+    <p>Assuntos</p>
+    <ul>
+        {% for assunto in assuntos %}
+            <li><a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto }}</a></li>
+            {% empty %}
+            <li>Nenhum assunto foi adicionado ainda.</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}
