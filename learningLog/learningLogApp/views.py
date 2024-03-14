@@ -15,7 +15,7 @@ def assunto(request, assunto_id):
     """Página de assuntos"""
     assunto = Assunto.objects.get(id=assunto_id)
     entradas = assunto.entrada_set.order_by('-data_inicial')
-    contexto = {'assunto' : assunto, 'entradas  ' : entradas}
+    contexto = {'assunto' : assunto, 'entradas' : entradas}
     return render(request, 'learningLogApp/assunto.html', contexto)
 
 
