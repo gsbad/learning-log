@@ -7,6 +7,12 @@
 </ul>
 {% if user.is_authenticated %}
     Olá! Seja bem-vindo {{ user.username }}!
+    <!-- form de requisiçao para logout, o django 5.0 nao aceita mais requisicoes GET para logout por medidas
+    de segurança, por isso a adoção dessa prática de criar um formulário próprio -->
+    <form action="{% url 'users:logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>    
 {% else %}
     <a href="{% url 'users:login' %}">log in</a>
 {% endif %}
