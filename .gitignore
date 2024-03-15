@@ -1,0 +1,6 @@
+ll_env/
+learningLog/learningLog/__pycache__
+learningLog/learningLogApp/__pycache__
+learningLog/learningLogApp/migrations/__pycache__
+*.pyc
+*.sqlite3
