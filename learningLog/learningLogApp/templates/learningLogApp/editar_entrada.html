@@ -1,0 +1,10 @@
+{% extends "learningLogApp/base.html" %}
+{% block content %}
+    <p>Assunto: <a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto }}</a></p>
+    <p>Editar entrada:</p>
+    <form action="{% url 'learningLogApp:editar_entrada' entrada.id %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">salvar mudanças</button>
+    </form>
+{% endblock content %}

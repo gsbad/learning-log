@@ -23,4 +23,7 @@ urlpatterns = [
 
      # Página de criação de Novas entradas
     path('nova_entrada/<int:assunto_id>/', views.nova_entrada, name='nova_entrada'),     
+
+     # Página de ediçao de entradas
+    path('editar_entrada/<int:entrada_id>/', views.editar_entrada, name='editar_entrada'),  
 ]
