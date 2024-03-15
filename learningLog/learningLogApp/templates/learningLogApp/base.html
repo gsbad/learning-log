@@ -1,0 +1,14 @@
+<h1><a href="{% url 'learningLogApp:index' %}">Learning Log - App</a></h1>
+<!-- menu -->
+
+<ul>
+    <li><a href="{% url 'learningLogApp:assuntos' %}">Assuntos</a></li>
+    <!--<li><a href="#">Entradas</a></li>-->
+</ul>
+{% if user.is_authenticated %}
+    Olá! Seja bem-vindo {{ user.username }}!
+{% else %}
+    <a href="{% url 'users:login' %}">log in</a>
+{% endif %}
+
+{% block content %}{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends 'learningLogApp/base.html' %}
+{% block content %}
+    <p>Assunto: {{ assunto }}</p>
+
+    <p>Entradas:</p>
+    <p><a href="{% url 'learningLogApp:nova_entrada' assunto.id %}">Criar nova entrada</a></p>
+    <ul>
+    {% for entrada in entradas %}
+        <li>
+            <p>{{ entrada.data_inicial|date:'M d, Y H:i' }}</p>
+            <p>{{ entrada.texto|linebreaks }}</p>
+            <p><a href="{% url 'learningLogApp:editar_entrada' entrada.id %}">Editar entrada</a></p>
+        </li>
+        {% empty %}
+        <li>
+            Nenhuma entrada foi adicionada a esses assunto ainda.
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock content %}
