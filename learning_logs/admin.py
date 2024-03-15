@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Topic
-from learning_logs.models import Topic, Entry
+from learning_logs.models import Assunto, Entrada
 
-admin.site.register(Topic)
-admin.site.register(Entry)
+admin.site.register(Assunto)
+admin.site.register(Entrada)
