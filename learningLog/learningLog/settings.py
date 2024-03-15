@@ -37,8 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Minha app referenciada
-    'learningLogApp'
+    # Minhas apps referenciadas
+    'learningLogApp',
+    'users'
 ]
 
 MIDDLEWARE = [
