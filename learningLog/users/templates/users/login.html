@@ -3,6 +3,7 @@
     {% if form.errors %}
         <p>Seu usuário e senha não estão corretos! Tente novamente!</p>
     {% endif %}
+    <!-- form login git-->
     <form method="post" action="{% url 'users:login' %}">
     {% csrf_token %}
     {{ form.as_p }}
