@@ -9,6 +9,7 @@
         <li>
             <p>{{ entrada.data_inicial|date:'M d, Y H:i' }}</p>
             <p>{{ entrada.texto|linebreaks }}</p>
+            <p><a href="{% url 'learningLogApp:editar_entrada' entrada.id %}">Editar entrada</a></p>
         </li>
         {% empty %}
         <li>

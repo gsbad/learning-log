@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from .models import Assunto
+from .models import Assunto, Entrada
 from .forms import AssuntoForm , EntradaForm
 
 from django.http import HttpResponseRedirect
@@ -56,7 +56,25 @@ def nova_entrada(request , assunto_id):
         nova_entrada.save()
         return HttpResponseRedirect(reverse('learningLogApp:assunto',
                                             args=[assunto_id]))
-    #atraves do contexto passa o forumario que recebeu a instancia da class AssuntoForm() de forms.py e usada com tag de template {{ form.as_p }}
     contexto = { 'assunto' : assunto , 'form': form }
     return render(request, 'learningLogApp/nova_entrada.html', contexto)
+
+def editar_entrada(request , entrada_id):
+    """Editar uma entrada."""
+    entrada = Entrada.objects.get(id = entrada_id)
+    assunto = entrada.assunto
+
+    if request.method != 'POST':
+        # Requisição inicial; Preenche previamente o form com entrada atual
+        form = EntradaForm(instance = entrada)
+    else:
+        # Dados de POST submetidos; processa os dados
+        form = EntradaForm(instance = entrada, data = request.POST)
+    
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('learningLogApp:assunto',
+                                            args=[assunto.id]))
+    contexto = { 'entrada' : entrada , 'assunto' : assunto , 'form': form }
+    return render(request, 'learningLogApp/editar_entrada.html', contexto)
    
