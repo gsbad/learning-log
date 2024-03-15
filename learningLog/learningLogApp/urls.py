@@ -20,4 +20,7 @@ urlpatterns = [
 
      # Página de criação de Novos assuntos
     path('assuntos/novo_assunto/', views.novo_assunto, name='novo_assunto'),   
+
+     # Página de criação de Novas entradas
+    path('nova_entrada/<int:assunto_id>/', views.nova_entrada, name='nova_entrada'),     
 ]
