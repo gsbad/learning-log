@@ -11,8 +11,13 @@ app_name="learningLogApp"
 urlpatterns = [
     # Página inicial
     path('', views.index, name='index'),
+
     # Assuntos
     path('assuntos/', views.assuntos, name='assuntos'),
+
     # Lista entradas por assunto
     path('assuntos/<int:assunto_id>/', views.assunto, name='assunto'),
+
+     # Página de criação de Novos assuntos
+    path('assuntos/novo_assunto/', views.novo_assunto, name='novo_assunto'),   
 ]
