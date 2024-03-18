@@ -1,9 +1,14 @@
 {% extends "learningLogApp/base.html" %}
+{% load bootstrap3 %}
+{% block header %}
+<h2>Criar novo assunto:</h2>
+{% endblock header %}
 {% block content %}
-    <p>Adicione um novo assunto:</p>
-    <form action="{% url 'learningLogApp:novo_assunto' %}" method='post'>
+    <form action="{% url 'learningLogApp:novo_assunto' %}" method='post' class="form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button name="submit">criar assunto</button>
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button name="submit" class="btn btn-primary">Criar assunto</button>
+        {% endbuttons %}
     </form>
 {% endblock content %}

@@ -1,5 +1,4 @@
 from django import forms
-
 from .models import Assunto, Entrada
 
 class AssuntoForm(forms.ModelForm):
@@ -14,3 +13,5 @@ class EntradaForm(forms.ModelForm):
         fields = ['texto']
         labels = {'texto': ''}
         widgets ={'texto': forms.Textarea(attrs={'cols': 80})}
+
+

@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
 
+
 def index(request):
     """A página inicial de Learning Log"""
     return render(request, 'learningLogApp/index.html')
@@ -45,7 +46,7 @@ def novo_assunto(request):
         novo_assunto.owner = request.user
         novo_assunto.save()
         return HttpResponseRedirect(reverse('learningLogApp:assuntos'))
-    #atraves do contexto passa o forumario que recebeu a instancia da class AssuntoForm() de forms.py e usada com tag de template {{ form.as_p }}
+    #atraves do contexto passa o formulario que recebeu a instancia da class AssuntoForm() de forms.py e usada com tag de template {{ form.as_p }}
     contexto = { 'form': form }
     return render(request, 'learningLogApp/novo_assunto.html', contexto)
 
@@ -53,6 +54,12 @@ def novo_assunto(request):
 def nova_entrada(request , assunto_id):
     """Adiciona uma nova entrada."""
     assunto = Assunto.objects.get(id = assunto_id)
+    
+    owner_assunto = assunto.owner
+    owner_request = request.user
+    # Garante que o assunto pertence ao usuario atual
+    if owner_assunto != owner_request:
+        raise Http404     
 
     if request.method != 'POST':
         # Nenhum dado submetido; cria um formulário em branco
@@ -62,8 +69,10 @@ def nova_entrada(request , assunto_id):
         form = EntradaForm(data = request.POST)
     
     if form.is_valid():
+        # proteçao de novas entradas            
+        nova_entrada.owner = request.user       
         nova_entrada = form.save(commit = False)
-        nova_entrada.assunto = assunto
+        nova_entrada.assunto = assunto           
         nova_entrada.save()
         return HttpResponseRedirect(reverse('learningLogApp:assunto',
                                             args=[assunto_id]))
@@ -91,4 +100,3 @@ def editar_entrada(request , entrada_id):
                                             args=[assunto.id]))
     contexto = { 'entrada' : entrada , 'assunto' : assunto , 'form': form }
     return render(request, 'learningLogApp/editar_entrada.html', contexto)
-   
