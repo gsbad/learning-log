@@ -7,11 +7,9 @@ from learningLogApp import views
 # Modelo do DRF
 from rest_framework.routers import DefaultRouter
 
-from learningLogApp.views import AssuntoSerializer, EntradaSerializer
-
 router = DefaultRouter()
-router.register('assuntos', views.AssuntoSerializer)
-router.register('entradas', views.EntradaSerializer)
+router.register('assuntos', views.AssuntoViewSet)
+router.register('entradas', views.EntradaViewSet, basename='entrada')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

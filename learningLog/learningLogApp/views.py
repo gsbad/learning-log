@@ -8,16 +8,26 @@ from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
 
+# Django Rest Framework imports
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from .serializers import AssuntoSerializer, EntradaSerializer
 
-class AssuntoSerializer(viewsets.ModelViewSet):
+class AssuntoViewSet(viewsets.ModelViewSet):
     queryset = Assunto.objects.all()
     serializer_class = AssuntoSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['assunto']
 
-class EntradaSerializer(viewsets.ModelViewSet):
-    queryset = Entrada.objects.all()
+class EntradaViewSet(viewsets.ModelViewSet):
     serializer_class = EntradaSerializer
+
+    def get_queryset(self):
+        queryset = Entrada.objects.all()
+        assunto = self.request.query_params.get('assunto')
+        if assunto is not None:
+            queryset = queryset.filter(assunto=assunto)
+        return queryset
 
 def index(request):
     """A página inicial de Learning Log"""

@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'users',
     # Aplicações de terceiros
     'bootstrap3',
-    'rest_framework'
+    'rest_framework',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -135,4 +136,10 @@ LOGIN_URL = '/users/login/'
 # Configurações para django-bootstrap3
 BOOTSTRAP3 = {
     'include_jquery': True,
+}
+# Configuraçoes do DRF
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
 }
