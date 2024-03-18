@@ -3,26 +3,34 @@ from django.shortcuts import render
 from .models import Assunto, Entrada
 from .forms import AssuntoForm , EntradaForm
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
+
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     """A página inicial de Learning Log"""
     return render(request, 'learningLogApp/index.html')
 
+@login_required
 def assuntos(request):
     """Página de assuntos"""
-    assuntos = Assunto.objects.order_by('data_inicial')
+    assuntos = Assunto.objects.filter(owner=request.user).order_by('data_inicial')
     contexto = {'assuntos' : assuntos}
     return render(request, 'learningLogApp/assuntos.html', contexto)
 
+@login_required
 def assunto(request, assunto_id):
     """Página de assuntos"""
     assunto = Assunto.objects.get(id=assunto_id)
+    # Garante que o assunto pertence ao usuario atual
+    if assunto.owner != request.user:
+        raise Http404
     entradas = assunto.entrada_set.order_by('-data_inicial')
     contexto = {'assunto' : assunto, 'entradas' : entradas}
     return render(request, 'learningLogApp/assunto.html', contexto)
 
+@login_required
 def novo_assunto(request):
     """Adiciona um novo assunto."""
     if request.method != 'POST':
@@ -33,12 +41,15 @@ def novo_assunto(request):
         form = AssuntoForm(request.POST)
     
     if form.is_valid():
-        form.save()
+        novo_assunto = form.save(commit = False)
+        novo_assunto.owner = request.user
+        novo_assunto.save()
         return HttpResponseRedirect(reverse('learningLogApp:assuntos'))
     #atraves do contexto passa o forumario que recebeu a instancia da class AssuntoForm() de forms.py e usada com tag de template {{ form.as_p }}
     contexto = { 'form': form }
     return render(request, 'learningLogApp/novo_assunto.html', contexto)
 
+@login_required
 def nova_entrada(request , assunto_id):
     """Adiciona uma nova entrada."""
     assunto = Assunto.objects.get(id = assunto_id)
@@ -59,11 +70,14 @@ def nova_entrada(request , assunto_id):
     contexto = { 'assunto' : assunto , 'form': form }
     return render(request, 'learningLogApp/nova_entrada.html', contexto)
 
+@login_required
 def editar_entrada(request , entrada_id):
     """Editar uma entrada."""
     entrada = Entrada.objects.get(id = entrada_id)
     assunto = entrada.assunto
-
+     # Garante que o assunto pertence ao usuario atual
+    if assunto.owner != request.user:
+        raise Http404   
     if request.method != 'POST':
         # Requisição inicial; Preenche previamente o form com entrada atual
         form = EntradaForm(instance = entrada)
