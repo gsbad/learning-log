@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from .models import Assunto, Entrada
 from .forms import AssuntoForm , EntradaForm
@@ -23,7 +23,7 @@ def assuntos(request):
 @login_required
 def assunto(request, assunto_id):
     """Página de assuntos"""
-    assunto = Assunto.objects.get(id=assunto_id)
+    assunto = get_object_or_404(Assunto, id=assunto_id)
     # Garante que o assunto pertence ao usuario atual
     if assunto.owner != request.user:
         raise Http404
@@ -82,7 +82,7 @@ def nova_entrada(request , assunto_id):
 @login_required
 def editar_entrada(request , entrada_id):
     """Editar uma entrada."""
-    entrada = Entrada.objects.get(id = entrada_id)
+    entrada = get_object_or_404(Entrada, id = entrada_id)
     assunto = entrada.assunto
      # Garante que o assunto pertence ao usuario atual
     if assunto.owner != request.user:
