@@ -69,8 +69,7 @@ def nova_entrada(request , assunto_id):
         form = EntradaForm(data = request.POST)
     
     if form.is_valid():
-        # proteçao de novas entradas            
-        nova_entrada.owner = request.user       
+        # proteçao de novas entradas                 
         nova_entrada = form.save(commit = False)
         nova_entrada.assunto = assunto           
         nova_entrada.save()
