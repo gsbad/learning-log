@@ -53,7 +53,7 @@ def novo_assunto(request):
 @login_required
 def nova_entrada(request , assunto_id):
     """Adiciona uma nova entrada."""
-    assunto = Assunto.objects.get(id = assunto_id)
+    assunto = get_object_or_404(Assunto,id = assunto_id)
     
     owner_assunto = assunto.owner
     owner_request = request.user
