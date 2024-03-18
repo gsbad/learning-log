@@ -1,12 +1,14 @@
 {% extends "learningLogApp/base.html" %}
+{% block header %}
+<h1>Assuntos</h1>
+{% endblock header %}
 {% block content %}
-    <p>Assuntos</p>
     <ul>
-        {% for assunto in assuntos %}
-            <li><a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto }}</a></li>
-            {% empty %}
-            <li>Nenhum assunto foi adicionado ainda.</li>
-        {% endfor %}
+    {% for assunto in assuntos %}
+        <li><h3><a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto }}</a></h3></li>
+    {% empty %}
+        <li>Nenhum assunto foi criado ainda.</li>
+    {% endfor %}
     </ul>
-    <a href="{% url 'learningLogApp:novo_assunto' %}">Criar novo assunto</a>
+    <h3><a href="{% url 'learningLogApp:novo_assunto' %}">Adicionar assunto [ + ]</h3>
 {% endblock content %}

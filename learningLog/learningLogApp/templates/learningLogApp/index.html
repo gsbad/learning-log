@@ -1,6 +1,27 @@
 {% extends "learningLogApp/base.html" %}
+{% block header %}
+<div class='jumbotron'>
+    <h1>Monitore seu aprendizado.</h1>
+</div>
+{% endblock header %}
+
 {% block content %}
-    <p>
-        Página inicial
-    </p>
+{% if user.is_authenticated %}
+    <h2>
+        Olá, <a href="{% url 'learningLogApp:assuntos' %}">{{ user.username }}</a>! Comece agora com o seu de diário de aprendizado.
+        Controle suas atividades através de um log personalizado dos seus tópicos.
+    </h2>
+    <h2>
+            Sempre que aprender algo a respeito de determinado assunto, atualize seus registros.
+    </h2>
+{% else %}
+    <h2>
+        <a href="{% url 'users:registrar' %}">Registre uma conta</a> para dar início ao seu diário de aprendizado.
+        Controle suas atividades através de um log personalizado dos seus tópicos.
+    </h2>
+    <h2>
+            Sempre que aprender algo a respeito de determinado assunto, atualize seus registros.
+    </h2>
+{% endif %}
+
 {% endblock content %}

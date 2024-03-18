@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
 
+
 def index(request):
     """A página inicial de Learning Log"""
     return render(request, 'learningLogApp/index.html')
@@ -99,4 +100,3 @@ def editar_entrada(request , entrada_id):
                                             args=[assunto.id]))
     contexto = { 'entrada' : entrada , 'assunto' : assunto , 'form': form }
     return render(request, 'learningLogApp/editar_entrada.html', contexto)
-   
