@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'learningLogApp',
     'users',
     # Aplicações de terceiros
-    'bootstrap3'
+    'bootstrap3',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

@@ -8,6 +8,16 @@ from django.urls import reverse
 
 from django.contrib.auth.decorators import login_required
 
+from rest_framework import viewsets
+from .serializers import AssuntoSerializer, EntradaSerializer
+
+class AssuntoSerializer(viewsets.ModelViewSet):
+    queryset = Assunto.objects.all()
+    serializer_class = AssuntoSerializer
+
+class EntradaSerializer(viewsets.ModelViewSet):
+    queryset = Entrada.objects.all()
+    serializer_class = EntradaSerializer
 
 def index(request):
     """A página inicial de Learning Log"""
