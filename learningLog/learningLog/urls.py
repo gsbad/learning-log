@@ -8,7 +8,7 @@ from learningLogApp import views
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register('assuntos', views.AssuntoViewSet)
+router.register('assuntos', views.AssuntoViewSet, basename='assunto')
 router.register('entradas', views.EntradaViewSet, basename='entrada')
 
 urlpatterns = [

@@ -17,17 +17,14 @@ class AssuntoViewSet(viewsets.ModelViewSet):
     queryset = Assunto.objects.all()
     serializer_class = AssuntoSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['assunto']
+    filterset_fields = ['id', 'texto', 'data_inicial', 'owner']
+    
 
 class EntradaViewSet(viewsets.ModelViewSet):
+    queryset = Entrada.objects.all()
     serializer_class = EntradaSerializer
-
-    def get_queryset(self):
-        queryset = Entrada.objects.all()
-        assunto = self.request.query_params.get('assunto')
-        if assunto is not None:
-            queryset = queryset.filter(assunto=assunto)
-        return queryset
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['id', 'assunto', 'texto', 'data_inicial']
 
 def index(request):
     """A página inicial de Learning Log"""
