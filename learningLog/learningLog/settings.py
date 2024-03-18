@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'users',
     # Aplicações de terceiros
     'bootstrap3',
-    'rest_framework'
+    'rest_framework',
+    'django_filters'
 ]
 
 MIDDLEWARE = [
