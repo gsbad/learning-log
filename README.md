@@ -8,7 +8,7 @@ Para configurar o ambiente local e executar o aplicativo em sua máquina, siga e
 
 ### 1. Clonar o Repositório
 
-```https://github.com/b1tcraft/learning-app.git```
+```https://github.com/gsbad/learning-log.git```
 
 ### 2. Configurar o Ambiente Virtual
 
