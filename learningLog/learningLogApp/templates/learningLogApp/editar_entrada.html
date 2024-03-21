@@ -1,16 +1,33 @@
 {% extends "learningLogApp/base.html" %}
+<!-- Herda a estrutura e elementos básicos do template base.html, garantindo consistência no design e na estrutura da página. -->
+
 {% load bootstrap3 %}
+<!-- Carrega a biblioteca Bootstrap 3 para utilização no template, facilitando a estilização dos elementos do formulário e outros componentes. -->
+
 {% block header %}
+<!-- Define o conteúdo específico para o bloco 'header' definido no template base, estabelecendo o título da página. -->
 <h2>Editar entrada</h2>
 {% endblock header %}
+
 {% block content %}
+<!-- Inicia o bloco de conteúdo principal da página, onde o formulário de edição da entrada e outras informações são apresentados. -->
     <p>Assunto: <a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto }}</a></p>
+    <!-- Mostra o assunto relacionado à entrada que está sendo editada, fornecendo um link de volta para a página do assunto para fácil navegação. -->
+
     <p>Editar uma entrada registrada:</p>
+    <!-- Introduz o formulário de edição. -->
+
     <form action="{% url 'learningLogApp:editar_entrada' entrada.id %}" method='post' class="form">
+        <!-- Define o formulário para editar a entrada. A ação do formulário é direcionada para a URL que trata a edição da entrada, utilizando o ID da entrada como parâmetro. -->
         {% csrf_token %}
+        <!-- Inclui um token CSRF para prevenir ataques de falsificação de solicitação entre sites. Essencial em todos os formulários Django que realizam postagens de dados. -->
+
         {% bootstrap_form form %}
+        <!-- Renderiza o formulário utilizando a tag 'bootstrap_form' da biblioteca bootstrap3, o que aplica automaticamente a estilização do Bootstrap aos campos do formulário. -->
+
         {% buttons %}
             <button name="submit" class="btn btn-primary">Salvar mudanças</button>
+            <!-- Define o botão de submissão do formulário, com estilização Bootstrap para destacá-lo como a ação principal do formulário. -->
         {% endbuttons %}
     </form>
 {% endblock content %}

@@ -1,37 +1,47 @@
 {% load bootstrap3 %}
+<!-- Carrega as tags do Bootstrap 3 para uso no template, permitindo a inclusão de CSS e JS do Bootstrap. -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Configurações padrão do cabeçalho, incluindo conjunto de caracteres, compatibilidade com IE e viewport para responsividade. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Learning Log App</title>
+    <!-- Inclui os arquivos CSS e JS do Bootstrap para estilizar e adicionar funcionalidades interativas à página. -->
     {% bootstrap_css %}
     {% bootstrap_javascript %}
 </head>
 <body>
-    <!-- Static Navbar -->
+    <!-- Cria uma barra de navegação estática na parte superior da página. -->
     <nav class="navbar navbar-default navbar-static-top">
         <div class="container">
+            <!-- A navbar se ajusta para dispositivos móveis com um botão de alternância em telas menores. -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">   
                 </button>
                 <a class="navbar-brand" href="{% url 'learningLogApp:index' %}">Learning Log App</a>
             </div>
+            <!-- Itens da navbar que podem ser colapsados em telas menores. -->
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <!-- Link para a página de assuntos. -->
                     <li><a href="{% url 'learningLogApp:assuntos' %}">Assuntos</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <!-- Área de autenticação: mostra opções baseadas no estado de autenticação do usuário. -->
                     {% if user.is_authenticated %}
                         <li><a>Olá, {{ user.username }}.</a></li>
                         <li>
+                            <!-- Formulário de logout com token CSRF para segurança. -->
                             <form action="{% url 'users:logout' %}" method="post" class="navbar-form">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-default">Logout</button>
                             </form>
                         </li>
                     {% else %}
+                        <!-- Links para registrar ou entrar para usuários não autenticados. -->
                         <li><a href="{% url 'users:registrar' %}">Registrar</a></li>
                         <li><a href="{% url 'users:login' %}">Entrar</a></li>
                     {% endif %}
@@ -40,6 +50,7 @@
         </div>
     </nav>
 
+    <!-- Conteúdo principal da página é inserido aqui através de blocos substituíveis. -->
     <div class="container">
         <div class="page-header">
             {% block header %}{% endblock %}
@@ -49,6 +60,7 @@
         </div>
     </div> <!-- /container -->
     
+    <!-- Rodapé simples, utilizando classes do Bootstrap para estilização. -->
     <footer class="footer bg-light">
         <div class="container">
             <span class="text-muted">© 2024 Learning Log App.</span>

@@ -1,14 +1,18 @@
 {% extends "learningLogApp/base.html" %}
-{% load bootstrap3 %}
+{% load bootstrap3 %} <!-- Carrega a biblioteca Bootstrap 3 para estilização -->
 {% block header %}
+<!-- Define o conteúdo do bloco 'header' do template base. -->
 <h2>Editar assunto:</h2>
 {% endblock header %}
+
 {% block content %}
+<!-- Define o conteúdo do bloco 'content' do template base. -->
+    <!-- Formulário para editar um assunto existente. A ação do formulário é direcionada para a view 'editar_assunto' passando o id do assunto como argumento. -->
     <form action="{% url 'learningLogApp:editar_assunto' assunto.id %}" method='post' class="form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
+        {% csrf_token %} <!-- Token CSRF para prevenção de ataques. Essencial em todos os formulários POST no Django. -->
+        {% bootstrap_form form %} <!-- Renderiza o formulário utilizando a tag 'bootstrap_form' da biblioteca bootstrap3 para estilização automática. -->
         {% buttons %}
-            <button name="submit" class="btn btn-primary">Salvar mudanças</button>
+            <button name="submit" class="btn btn-primary">Salvar mudanças</button> <!-- Botão para submissão do formulário com a classe 'btn btn-primary' do Bootstrap para estilização. -->
         {% endbuttons %}
     </form>
 {% endblock content %}

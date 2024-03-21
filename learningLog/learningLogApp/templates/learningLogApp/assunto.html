@@ -1,28 +1,39 @@
 {% extends 'learningLogApp/base.html' %}
+<!-- Herda a estrutura básica do template 'base.html' do app 'learningLogApp'. -->
+
 {% block header %}
+<!-- Personaliza a seção de cabeçalho para a página de detalhes do assunto. -->
     <h2>
         {{ assunto.texto|truncatechars:155 }}
-        <br />
+        <!-- Exibe o título do assunto, truncando se for muito longo. -->
         {% if user.is_authenticated and assunto.owner == user %}
+            <!-- Mostra opções de edição e exclusão apenas para o dono do assunto. -->
+            <br />
             <a href="{% url 'learningLogApp:editar_assunto' assunto.id %}" class="btn btn-default btn-sm">Editar Assunto</a>
-            <!-- Botão de Exclusão do Assunto -->
+            <!-- Botão para abrir o modal de confirmação de exclusão do assunto. -->
             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmacaoExclusaoAssuntoModal" data-id="{{ assunto.id }}" data-nome="{{ assunto.texto }}">Excluir Assunto</button>
         {% endif %}
     </h2>
 {% endblock header %}
+
 {% block content %}
+    <!-- Bloco de conteúdo principal, inclui a listagem de entradas e opções para adicionar novas entradas. -->
     {% if user.is_authenticated and assunto.owner == user %}
+    <!-- Opção para adicionar nova entrada disponível apenas para o dono do assunto. -->
     <p>
         <a href="{% url 'learningLogApp:nova_entrada' assunto.id %}"  class="btn btn-primary text">Adicionar entrada [ + ]</a>
     </p>
     {% endif %}
     {% for entrada in entradas %}
+        <!-- Itera sobre as entradas relacionadas ao assunto e as exibe. -->
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h4>
                     {{ entrada.data_inicial|date:'M d, Y H:i' }}
+                    <!-- Exibe a data da entrada. -->
                     <small>
                         {% if user.is_authenticated and assunto.owner == user %}
+                        <!-- Opções de edição e exclusão de entrada disponíveis apenas para o dono. -->
                         <a href="{% url 'learningLogApp:editar_entrada' entrada.id %}" class="btn btn-default btn-sm">Editar entrada</a>
                         <a href="#" class="btn btn-danger btn-sm abrirConfirmacaoExclusaoModal" data-id="{{ entrada.id }}" data-nome="{{ entrada.texto }}" data-toggle="modal" data-target="#confirmacaoExclusaoEntradaModal">
                             Excluir Entrada</a>
@@ -32,11 +43,16 @@
             </div>
             <div class="panel-body">
                 {{ entrada.texto|linebreaks }}
+                <!-- Exibe o texto da entrada, convertendo quebras de linha em parágrafos. -->
             </div>
         </div> <!-- panel -->
-        {% empty %}
+    {% empty %}
+        <!-- Mensagem exibida se não houver entradas cadastradas. -->
         Não existe entradas cadastradas
     {% endfor %}
+
+    <!-- Modais de confirmação de exclusão para assuntos e entradas, usando Bootstrap para a estilização e JavaScript para a lógica de interação. -->
+
 
 <!-- Modal de Confirmação de Exclusão do Assunto -->
 <div class="modal fade" id="confirmacaoExclusaoAssuntoModal" tabindex="-1" role="dialog" aria-labelledby="exclusaoAssuntoModalLabel" aria-hidden="true">
@@ -109,9 +125,5 @@
       modal.find('#botaoExcluirEntrada').attr('href', urlExclusaoEntrada); // Atualiza o link
     });
   </script>
-  
-
-  
-   
-     
+ 
 {% endblock content %}
