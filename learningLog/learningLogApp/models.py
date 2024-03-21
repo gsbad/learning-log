@@ -6,6 +6,7 @@ class Assunto(models.Model):
     texto = models.CharField(max_length = 200)
     data_inicial = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE) # Chave estrangeira com usuario
+    public = models.BooleanField(default=False)
 
     def __str__(self):
         """ Devolve uma representação em string do modelo """

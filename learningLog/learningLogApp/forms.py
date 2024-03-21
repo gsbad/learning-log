@@ -4,8 +4,8 @@ from .models import Assunto, Entrada
 class AssuntoForm(forms.ModelForm):
     class Meta:
         model  = Assunto
-        fields = ['texto']
-        labels = {'texto' : ''}
+        fields = ['texto', 'public']
+        labels = {'texto' : '' , 'public' : 'Tornar públic'}
 
 class EntradaForm(forms.ModelForm):
     class Meta:

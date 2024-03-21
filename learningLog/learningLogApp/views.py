@@ -30,20 +30,27 @@ def index(request):
     """A página inicial de Learning Log"""
     return render(request, 'learningLogApp/index.html')
 
-@login_required
+#@login_required
 def assuntos(request):
     """Página de assuntos"""
-    assuntos = Assunto.objects.filter(owner=request.user).order_by('data_inicial')
-    contexto = {'assuntos' : assuntos}
+    if request.user.is_authenticated:
+        assuntos = Assunto.objects.filter(owner=request.user) | Assunto.objects.filter(public=True)
+    else:
+        assuntos = Assunto.objects.filter(public=True)
+    contexto = {'assuntos': assuntos}   
+    """A página inicial de Learning Log"""
     return render(request, 'learningLogApp/assuntos.html', contexto)
+    
 
-@login_required
+#@login_required
 def assunto(request, assunto_id):
     """Página de assuntos"""
     assunto = get_object_or_404(Assunto, id=assunto_id)
-    # Garante que o assunto pertence ao usuario atual
-    if assunto.owner != request.user:
+
+    # Se o assunto for privado e o usuário não for o proprietário, levanta 404.
+    if not assunto.public and assunto.owner != request.user:
         raise Http404
+    
     entradas = assunto.entrada_set.order_by('-data_inicial')
     contexto = {'assunto' : assunto, 'entradas' : entradas}
     return render(request, 'learningLogApp/assunto.html', contexto)
@@ -66,6 +73,23 @@ def novo_assunto(request):
     #atraves do contexto passa o formulario que recebeu a instancia da class AssuntoForm() de forms.py e usada com tag de template {{ form.as_p }}
     contexto = { 'form': form }
     return render(request, 'learningLogApp/novo_assunto.html', contexto)
+
+@login_required
+def editar_assunto(request, assunto_id):
+    assunto = get_object_or_404(Assunto, id=assunto_id)
+
+    if request.method != 'POST':
+        # Preenche o formulário com a instância atual.
+        form = AssuntoForm(instance=assunto)
+    else:
+        # POST, processar dados do formulário.
+        form = AssuntoForm(instance=assunto, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('learningLogApp:assunto', id=assunto_id))
+
+    context = {'assunto': assunto, 'form': form}
+    return render(request, 'learningLogApp/editar_assunto.html', context)
 
 @login_required
 def nova_entrada(request , assunto_id):

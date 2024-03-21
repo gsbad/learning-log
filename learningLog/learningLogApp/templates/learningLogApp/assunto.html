@@ -1,17 +1,26 @@
 {% extends 'learningLogApp/base.html' %}
 {% block header %}
-    <h2>{{ assunto }}</h2>
+    <h2>{{ assunto.nome }} 
+        {% if user.is_authenticated and assunto.owner == user %}
+            <a href="{% url 'learningLogApp:editar_assunto' assunto.id %}" class="btn btn-default btn-sm">Editar Assunto</a>
+        {% endif %}
+    </h2>
 {% endblock header %}
-{% block content %}<p>
-    <a href="{% url 'learningLogApp:nova_entrada' assunto.id %}">Adicionar entrada [ + ]</a>
+{% block content %}
+    {% if user.is_authenticated and assunto.owner == user %}
+    <p>
+        <a href="{% url 'learningLogApp:nova_entrada' assunto.id %}">Adicionar entrada [ + ]</a>
     </p>
+    {% endif %}
     {% for entrada in entradas %}
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3>
                     {{ entrada.data_inicial|date:'M d, Y H:i' }}
                     <small>
+                        {% if user.is_authenticated and assunto.owner == user %}
                         <a href="{% url 'learningLogApp:editar_entrada' entrada.id %}">Editar entrada</a>
+                        {% endif %}
                     </small>
                 </h3>
             </div>
