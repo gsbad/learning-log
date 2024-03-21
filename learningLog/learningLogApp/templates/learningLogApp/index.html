@@ -1,27 +1,104 @@
 {% extends "learningLogApp/base.html" %}
 {% block header %}
-<div class='jumbotron'>
-    <h1>Monitore seu aprendizado.</h1>
+<div class="jumbotron" style="background: linear-gradient(to right, #2d50c4, #b0ccd1); color: white;">
+    <h1>Se organize com seus amigos.</h1>
 </div>
 {% endblock header %}
 
 {% block content %}
-{% if user.is_authenticated %}
-    <h2>
+
+<div class="welcome" style="margin-bottom: 3em;">
+    {% if user.is_authenticated %}
+    <h3>
         Olá, <a href="{% url 'learningLogApp:assuntos' %}">{{ user.username }}</a>! Comece agora com o seu de diário de aprendizado.
         Controle suas atividades através de um log personalizado dos seus tópicos.
-    </h2>
-    <h2>
+    </h3>
+    <h3>
             Sempre que aprender algo a respeito de determinado assunto, atualize seus registros.
-    </h2>
-{% else %}
-    <h2>
+    </h3>
+    {% else %}
+    <h3>
         <a href="{% url 'users:registrar' %}">Registre uma conta</a> para dar início ao seu diário de aprendizado.
         Controle suas atividades através de um log personalizado dos seus tópicos.
-    </h2>
-    <h2>
+    </h3>
+    <h3>
             Sempre que aprender algo a respeito de determinado assunto, atualize seus registros.
-    </h2>
-{% endif %}
+    </h3>
+    {% endif %}    
+</div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action active">Últimos assuntos públicos</a>
+            <a href="#" class="list-group-item">Lorem</a>
+            <a href="#" class="list-group-item">Ipsum</a>
+            <a href="#" class="list-group-item">Dolor</a>
+            <a href="#" class="list-group-item">Amet</a>
+            <a href="#" class="list-group-item">Lorem</a>
+            <ul class="pagination pagination-sm">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#">&laquo;</a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">4</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">5</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">&raquo;</a>
+                </li>
+              </ul>
+        </div>
+    </div>
+
+
+    <div class="col-lg-4">
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action active">Usuários cadastrados</a>
+            <a href="#" class="list-group-item">Sefirot</a>
+            <a href="#" class="list-group-item">Sefirot</a>
+            <a href="#" class="list-group-item">Sefirot</a>
+            <a href="#" class="list-group-item">Sefirot</a>
+            <a href="#" class="list-group-item">Sefirot</a>
+            <ul class="pagination pagination-sm">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#">&laquo;</a>
+                </li>
+                <li class="page-item active">
+                  <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">4</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">5</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#">&raquo;</a>
+                </li>
+              </ul>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        
+    </div>
+</div>
 
 {% endblock content %}
