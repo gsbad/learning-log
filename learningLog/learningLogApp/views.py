@@ -67,9 +67,18 @@ def assuntos(request):
     Para usuários não autenticados, mostra apenas assuntos públicos.
     """
     if request.user.is_authenticated:
-        assuntos = Assunto.objects.filter(owner=request.user) | Assunto.objects.filter(public=True)
+        assuntos_query = Assunto.objects.filter(owner=request.user) | Assunto.objects.filter(public=True)
     else:
-        assuntos = Assunto.objects.filter(public=True)
+        assuntos_query = Assunto.objects.filter(public=True)
+
+    # Prepara os dados com contagens de status para cada assunto
+    assuntos = []
+    for assunto in assuntos_query:
+        assunto.entradas_pendentes_count = assunto.entrada_set.filter(status='PD').count()
+        assunto.entradas_em_progresso_count = assunto.entrada_set.filter(status='EP').count()
+        assunto.entradas_feitas_count = assunto.entrada_set.filter(status='FT').count()
+        assuntos.append(assunto)    
+
     contexto = {'assuntos': assuntos}
     return render(request, 'learningLogApp/assuntos.html', contexto)
 

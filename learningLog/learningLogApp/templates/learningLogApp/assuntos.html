@@ -21,13 +21,17 @@
                 </div>
             </a>
             <!-- Cria um link para a página de detalhes do assunto, truncando o texto do assunto para 155 caracteres se necessário. -->
-            <span class="badge bg-primary rounded-pill">{{ assunto.entrada_set.all.count }}</span>
-            <!-- Exibe um badge com o número total de entradas associadas a este assunto, utilizando classes do Bootstrap para estilização. -->
+            
+            <!-- Exibe badges com o número de entradas por status associadas a este assunto, utilizando classes do Bootstrap para estilização. -->
+            <span class="PD badge">{{ assunto.entradas_pendentes_count }}</span>
+            <span class="EP badge">{{ assunto.entradas_em_progresso_count }}</span>
+            <span class="FT badge">{{ assunto.entradas_feitas_count }}</span>
         </li>
     {% empty %}
-        <!-- Caso não existam assuntos, exibe uma mensagem informativa. -->
-        <li class="list-group-item">Nenhum assunto foi criado ainda.</li>
-    {% endfor %}
+    <!-- Caso não existam assuntos, exibe uma mensagem informativa. -->
+    <li class="list-group-item">Nenhum assunto foi criado ainda.</li>
+{% endfor %}
+
     </ul>
     <h3><a href="{% url 'learningLogApp:novo_assunto' %}" class="btn btn-primary">Adicionar assunto [ + ]</a></h3>
     <!-- Fornece um link para adicionar um novo assunto, estilizado com o Bootstrap. -->
