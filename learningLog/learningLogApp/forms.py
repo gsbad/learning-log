@@ -36,6 +36,9 @@ class EntradaForm(forms.ModelForm):
     """
     class Meta:
         model = Entrada
-        fields = ['texto']
+        fields = ['texto', 'status']
         labels = {'texto': ''}
-        widgets = {'texto': forms.Textarea(attrs={'cols': 80})}
+        widgets = {
+            'texto': forms.Textarea(attrs={'cols': 80}),
+            'status': forms.HiddenInput(),  # Faz o campo status ser oculto
+        }

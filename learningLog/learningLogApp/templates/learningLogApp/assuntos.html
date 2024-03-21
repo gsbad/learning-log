@@ -3,7 +3,7 @@
 
 {% block header %}
 <!-- Define o conteúdo do bloco 'header' do template base, definindo o título da página como 'Assuntos'. -->
-<h1>Assuntos</h1>
+<h1 class="tit_assunto">Assuntos</h1>
 {% endblock header %}
 
 {% block content %}
@@ -14,7 +14,12 @@
         <!-- Itera sobre a coleção de assuntos passada pelo contexto da view. -->
         <li class="list-group-item d-flex justify-content-between align-items-center">
             <!-- Cria um item da lista para cada assunto, usando classes do Bootstrap para layout flexível. -->
-            <a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto.texto|truncatechars:155 }}</a>
+            <a href="{% url 'learningLogApp:assunto' assunto.id %}" class="list-link-assunto">
+                {{ assunto.texto|truncatechars:155 }}
+                <div>
+                    <small>por <strong class="azul">{{ assunto.owner }}</strong> em {{ assunto.data_inicial }}</small>
+                </div>
+            </a>
             <!-- Cria um link para a página de detalhes do assunto, truncando o texto do assunto para 155 caracteres se necessário. -->
             <span class="badge bg-primary rounded-pill">{{ assunto.entrada_set.all.count }}</span>
             <!-- Exibe um badge com o número total de entradas associadas a este assunto, utilizando classes do Bootstrap para estilização. -->

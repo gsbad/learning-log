@@ -1,16 +1,52 @@
 {% extends "learningLogApp/base.html" %}
+
 {% load bootstrap3 %}
+
 {% block header %}
-<h2>Nova entrada</h2>
+<h2 class="tit_assunto">Nova entrada</h2>
 {% endblock header %}
+
 {% block content %}
-    <p>Assunto: <a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto }}</a></p>
-    <p>Adicione uma nova entrada:</p>
+    <p class="azul">Assunto: <a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto }}</a></p>
+
+    <p>Criar nova entrada:</p>
+    <!-- Introduz o formulário de edição. -->
+
     <form action="{% url 'learningLogApp:nova_entrada' assunto.id %}" method='post' class="form">
-        {% csrf_token %}
+        {% csrf_token %}        
         {% bootstrap_form form %}
+        <div class="labels status-labels" data-current-status="PD">
+            <span class="label PD DT" data-status="PD">Pendente</span>
+            <span class="label EP DT" data-status="EP">Em progresso</span>
+            <span class="label FT DT" data-status="FT">Feito</span>
+        </div>
         {% buttons %}
-            <button name="submit" class="btn btn-primary">Criar entrada</button>
+            <button name="submit" class="btn btn-primary">Salvar mudanças</button>
         {% endbuttons %}
     </form>
+    
+<!-- JS para seleção das labels -->
+<script>
+    $(document).ready(function(){
+        $('.label').css('cursor', 'pointer');
+        // Obtem o status atual da entrada
+        var currentStatus = $('.status-labels').data('current-status');
+
+        // Marca o span correspondente como ativo
+        $(".labels span").each(function() {
+            if ($(this).data('status') === currentStatus) {
+                $(this).addClass('AT').removeClass('DT');
+            }
+        });
+
+        // Código anterior para trocar classes ao clicar nos spans
+        $('.label').click(function(){
+            $('.label').removeClass('AT').addClass('DT');
+            $(this).removeClass('DT').addClass('AT');
+            
+            // Supondo que você tenha um campo oculto para o status
+            $('input[name="status"]').val($(this).data('status'));
+        });
+    });
+</script>
 {% endblock content %}

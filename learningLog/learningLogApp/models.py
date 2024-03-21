@@ -34,6 +34,7 @@ class Entrada(models.Model):
       muitos-para-um entre entradas e assuntos, permitindo que múltiplas entradas sejam relacionadas a um único assunto.
     - texto: Campo de texto para o conteúdo da entrada. Não há limite de caracteres, permitindo entradas extensas.
     - data_inicial: Campo de data e hora que armazena automaticamente a data e hora de criação da entrada.
+    - status: campo para categorizar o estado atual da entrada. Sistema de labels.
       
     Métodos:
     - __str__: Método especial que retorna uma representação em string da entrada. Para facilitar a visualização em listas
@@ -43,6 +44,19 @@ class Entrada(models.Model):
     assunto = models.ForeignKey(Assunto, on_delete=models.CASCADE)
     texto = models.TextField()
     data_inicial = models.DateTimeField(auto_now_add=True)
+
+    #tupla de status para sistema de labels
+    STATUS = [
+        ('PD', 'Pendente'),
+        ('EP', 'Em progresso'),
+        ('FT', 'Feito')
+    ]
+
+    status = models.CharField(
+        max_length = 2,
+        choices = STATUS,
+        default = 'PD'
+    )
 
     def __str__(self):
         if len(self.texto) >= 50:

@@ -11,6 +11,8 @@
     <title>Learning Log App</title>
     <!-- Inclui os arquivos CSS e JS do Bootstrap para estilizar e adicionar funcionalidades interativas à página. -->
     {% bootstrap_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
     {% bootstrap_javascript %}
 </head>
 <body>
@@ -21,7 +23,7 @@
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">   
                 </button>
-                <a class="navbar-brand" href="{% url 'learningLogApp:index' %}">Learning Log App</a>
+                <a class="navbar-brand azul" href="{% url 'learningLogApp:index' %}">Learning Log App</a>
             </div>
             <!-- Itens da navbar que podem ser colapsados em telas menores. -->
             <div id="navbar" class="navbar-collapse collapse">
@@ -32,7 +34,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Área de autenticação: mostra opções baseadas no estado de autenticação do usuário. -->
                     {% if user.is_authenticated %}
-                        <li><a>Olá, {{ user.username }}.</a></li>
+                        <li><a class="autenticado">Olá, {{ user.username }}.</a></li>
                         <li>
                             <!-- Formulário de logout com token CSRF para segurança. -->
                             <form action="{% url 'users:logout' %}" method="post" class="navbar-form">

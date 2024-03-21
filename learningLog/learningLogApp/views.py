@@ -176,13 +176,14 @@ def editar_entrada(request, entrada_id):
     if assunto.owner != request.user:
         raise Http404
 
-    if request.method != 'POST':
+    if request.method != 'POST':  
         form = EntradaForm(instance=entrada)  # Preenche o formulário com a entrada atual.
+        
     else:
         form = EntradaForm(instance=entrada, data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('learningLogApp:assunto', args=[assunto.id]))
+            return HttpResponseRedirect(reverse('learningLogApp:assunto', args=[assunto.id]))        
 
     contexto = {'entrada': entrada, 'assunto': assunto, 'form': form}
     return render(request, 'learningLogApp/editar_entrada.html', contexto)
