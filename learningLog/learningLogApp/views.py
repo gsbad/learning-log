@@ -60,7 +60,7 @@ def index(request):
 
     return render(request, 'learningLogApp/index.html', context)
 
-#@login_required
+
 def assuntos(request):
     """
     Exibe uma lista de assuntos. Para usuários autenticados, mostra seus assuntos e assuntos públicos.
@@ -73,7 +73,7 @@ def assuntos(request):
     contexto = {'assuntos': assuntos}
     return render(request, 'learningLogApp/assuntos.html', contexto)
 
-#@login_required
+
 def assunto(request, assunto_id):
     """
     Exibe detalhes de um assunto específico, incluindo suas entradas associadas.
