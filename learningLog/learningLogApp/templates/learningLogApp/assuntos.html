@@ -16,6 +16,11 @@
             <!-- Cria um item da lista para cada assunto, usando classes do Bootstrap para layout flexível. -->
             <a href="{% url 'learningLogApp:assunto' assunto.id %}" class="list-link-assunto">
                 {{ assunto.texto|truncatechars:155 }}
+
+                {% if assunto.owner == user and assunto.public %}
+                    <span class="label DT">Público</span>
+                {% endif %}
+
                 <div>
                     <small>por <strong class="azul">{{ assunto.owner }}</strong> em {{ assunto.data_inicial }}</small>
                 </div>

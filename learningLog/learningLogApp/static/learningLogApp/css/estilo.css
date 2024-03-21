@@ -53,6 +53,12 @@ small.botoes a{
     display: inline-block;
     width: 89%;
 }
+.list-link-assunto span{
+    display: inline-block;
+}
+.list-link-assunto div{
+    margin-top:.4em;
+}
 .list-link-assunto a{
     display: inline-block;
 }
