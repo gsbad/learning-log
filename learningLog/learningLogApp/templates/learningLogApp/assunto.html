@@ -1,8 +1,12 @@
 {% extends 'learningLogApp/base.html' %}
 {% block header %}
-    <h2>{{ assunto.nome }} 
+    <h2>
+        {{ assunto.texto }}
+        
         {% if user.is_authenticated and assunto.owner == user %}
             <a href="{% url 'learningLogApp:editar_assunto' assunto.id %}" class="btn btn-default btn-sm">Editar Assunto</a>
+            <!-- Botão de Exclusão do Assunto -->
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmacaoExclusaoAssuntoModal" data-id="{{ assunto.id }}" data-nome="{{ assunto.texto }}">Excluir Assunto</button>
         {% endif %}
     </h2>
 {% endblock header %}
@@ -15,14 +19,16 @@
     {% for entrada in entradas %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3>
+                <h4>
                     {{ entrada.data_inicial|date:'M d, Y H:i' }}
                     <small>
                         {% if user.is_authenticated and assunto.owner == user %}
-                        <a href="{% url 'learningLogApp:editar_entrada' entrada.id %}">Editar entrada</a>
+                        <a href="{% url 'learningLogApp:editar_entrada' entrada.id %}" class="btn btn-default btn-sm">Editar entrada</a>
+                        <a href="#" class="btn btn-danger btn-sm abrirConfirmacaoExclusaoModal" data-id="{{ entrada.id }}" data-nome="{{ entrada.texto }}" data-toggle="modal" data-target="#confirmacaoExclusaoEntradaModal">
+                            Excluir Entrada</a>
                         {% endif %}
                     </small>
-                </h3>
+                </h4>
             </div>
             <div class="panel-body">
                 {{ entrada.texto|linebreaks }}
@@ -31,4 +37,81 @@
         {% empty %}
         Não existe entradas cadastradas
     {% endfor %}
+
+<!-- Modal de Confirmação de Exclusão do Assunto -->
+<div class="modal fade" id="confirmacaoExclusaoAssuntoModal" tabindex="-1" role="dialog" aria-labelledby="exclusaoAssuntoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exclusaoAssuntoModalLabel">Confirmar Exclusão</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Tem certeza de que deseja excluir o assunto "<span id="nomeAssuntoModal"></span>" e todas as suas entradas?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <a href="#" class="btn btn-danger" id="botaoExcluirAssunto">Excluir</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<!-- Modal de Confirmação de Exclusão de Entrada -->
+<div class="modal fade" id="confirmacaoExclusaoEntradaModal" tabindex="-1" role="dialog" aria-labelledby="exclusaoEntradaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exclusaoEntradaModalLabel">Confirmar Exclusão</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Tem certeza de que deseja excluir a entrada "<span id="nomeEntradaModal"></span>"?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <a href="#" class="btn btn-danger" id="botaoExcluirEntrada">Excluir</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+  <script>
+    $('#confirmacaoExclusaoAssuntoModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Botão que acionou o modal
+        var assuntoNome = button.data('nome'); // Extrai o nome do assunto
+        var assuntoId = button.data('id'); // Extrai o ID do assunto
+        var urlExclusaoAssunto = '{% url "learningLogApp:excluir_assunto" 0 %}'.replace('0', assuntoId);
+        
+        var modal = $(this);
+        modal.find('#nomeAssuntoModal').text(assuntoNome); // Atualiza o nome do assunto no modal
+        modal.find('#botaoExcluirAssunto').attr('href', urlExclusaoAssunto); // Atualiza o link
+    });    
+    $('#confirmacaoExclusaoEntradaModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Botão que acionou o modal
+      var entradaId = button.data('id'); // Extrai o ID da entrada
+      var entradaNome = button.data('nome'); // Extrai o nome da entrada
+      
+      // Limita o nome da entrada a 50 caracteres e adiciona "..." se for maior
+      entradaNome = entradaNome.length > 50 ? entradaNome.substring(0, 150) + "  (...)" : entradaNome;
+
+      var urlExclusaoEntrada = '{% url "learningLogApp:excluir_entrada" 0 %}'.replace('0', entradaId);
+      
+      var modal = $(this);
+      modal.find('#nomeEntradaModal').text(entradaNome); // Atualiza o nome da entrada no modal
+      modal.find('#botaoExcluirEntrada').attr('href', urlExclusaoEntrada); // Atualiza o link
+    });
+  </script>
+  
+
+  
+   
+     
 {% endblock content %}

@@ -40,7 +40,6 @@ def assuntos(request):
     contexto = {'assuntos': assuntos}   
     """A página inicial de Learning Log"""
     return render(request, 'learningLogApp/assuntos.html', contexto)
-    
 
 #@login_required
 def assunto(request, assunto_id):
@@ -54,6 +53,16 @@ def assunto(request, assunto_id):
     entradas = assunto.entrada_set.order_by('-data_inicial')
     contexto = {'assunto' : assunto, 'entradas' : entradas}
     return render(request, 'learningLogApp/assunto.html', contexto)
+
+@login_required
+def excluir_assunto(request, assunto_id):
+    assunto = get_object_or_404(Assunto, id=assunto_id)
+    
+    if assunto.owner != request.user:
+        raise Http404
+    
+    assunto.delete()
+    return HttpResponseRedirect(reverse('learningLogApp:assuntos'))
 
 @login_required
 def novo_assunto(request):
@@ -88,8 +97,8 @@ def editar_assunto(request, assunto_id):
             form.save()
             return HttpResponseRedirect(reverse('learningLogApp:assunto', id=assunto_id))
 
-    context = {'assunto': assunto, 'form': form}
-    return render(request, 'learningLogApp/editar_assunto.html', context)
+    contexto = {'assunto': assunto, 'form': form}
+    return render(request, 'learningLogApp/editar_assunto.html', contexto)
 
 @login_required
 def nova_entrada(request , assunto_id):
@@ -140,3 +149,16 @@ def editar_entrada(request , entrada_id):
                                             args=[assunto.id]))
     contexto = { 'entrada' : entrada , 'assunto' : assunto , 'form': form }
     return render(request, 'learningLogApp/editar_entrada.html', contexto)
+
+@login_required
+def excluir_entrada(request, entrada_id):
+
+    entrada = get_object_or_404(Entrada, id=entrada_id)
+    assunto_id = entrada.assunto.id
+
+    # Verifique se o usuário atual é o proprietário da entrada ou do assunto relacionado
+    if entrada.assunto.owner != request.user:
+        raise Http404
+
+    entrada.delete()
+    return HttpResponseRedirect(reverse('learningLogApp:assunto', args=[assunto_id]))
