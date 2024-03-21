@@ -1,0 +1,37 @@
+<!-- Template genérico de paginação que pode ser reutilizado -->
+<ul class="pagination pagination-sm justify-content-center">
+    <!-- Verifica se existe uma página anterior -->
+    {% if page_obj.has_previous %}
+        <!-- Se sim, exibe um link para a página anterior -->
+        <li class="page-item">
+            <a class="page-link" href="?{{ page_param }}={{ page_obj.previous_page_number }}">&laquo;</a>
+        </li>
+    {% else %}
+        <!-- Se não, desabilita o link da página anterior -->
+        <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+    {% endif %}
+
+    <!-- Itera sobre o intervalo de páginas disponíveis -->
+    {% for num in page_obj.paginator.page_range %}
+        <!-- Marca a página atual como ativa -->
+        {% if page_obj.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+            <!-- Exibe links para as outras páginas -->
+            <li class="page-item">
+                <a class="page-link" href="?{{ page_param }}={{ num }}">{{ num }}</a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+    <!-- Verifica se existe uma próxima página -->
+    {% if page_obj.has_next %}
+        <!-- Se sim, exibe um link para a próxima página -->
+        <li class="page-item">
+            <a class="page-link" href="?{{ page_param }}={{ page_obj.next_page_number }}">&raquo;</a>
+        </li>
+    {% else %}
+        <!-- Se não, desabilita o link da próxima página -->
+        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+    {% endif %}
+</ul>
