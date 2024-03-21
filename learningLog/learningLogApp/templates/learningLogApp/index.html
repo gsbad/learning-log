@@ -1,5 +1,6 @@
 {% extends "learningLogApp/base.html" %}
 {% block header %}
+<!-- Jumbotron para uma introdução visualmente destacada -->
 <div class="jumbotron" style="background: linear-gradient(to right, #2d50c4, #b0ccd1); color: white;">
     <h1>Se organize com seus amigos.</h1>
 </div>
@@ -7,95 +8,80 @@
 
 {% block content %}
 
+<!-- Seção de boas-vindas para usuários autenticados e não autenticados -->
 <div class="welcome" style="margin-bottom: 3em;">
     {% if user.is_authenticated %}
+    <!-- Mensagem para usuários autenticados, com link direto para seus assuntos -->
     <h3>
-        Olá, <a href="{% url 'learningLogApp:assuntos' %}">{{ user.username }}</a>! Comece agora com o seu de diário de aprendizado.
+        Olá, <a href="{% url 'learningLogApp:assuntos' %}">{{ user.username }}</a>! Comece agora com o seu diário de aprendizado.
         Controle suas atividades através de um log personalizado dos seus tópicos.
     </h3>
     <h3>
-            Sempre que aprender algo a respeito de determinado assunto, atualize seus registros.
+        Sempre que aprender algo a respeito de determinado assunto, atualize seus registros.
     </h3>
     {% else %}
+    <!-- Mensagem para visitantes, incentivando o registro -->
     <h3>
         <a href="{% url 'users:registrar' %}">Registre uma conta</a> para dar início ao seu diário de aprendizado.
         Controle suas atividades através de um log personalizado dos seus tópicos.
     </h3>
     <h3>
-            Sempre que aprender algo a respeito de determinado assunto, atualize seus registros.
+        Sempre que aprender algo a respeito de determinado assunto, atualize seus registros.
     </h3>
     {% endif %}    
 </div>
 
+<!-- Layout de colunas usando o sistema de grid do Bootstrap -->
 <div class="row">
+    <!-- Coluna para os últimos assuntos públicos -->
     <div class="col-lg-4">
-        <div class="list-group">
+        <!-- Agrupamento de itens representando os últimos assuntos públicos -->
+        <div class="list-group mt-4">
+            <!-- Cabeçalho da lista -->
             <a href="#" class="list-group-item list-group-item-action active">Últimos assuntos públicos</a>
-            <a href="#" class="list-group-item">Lorem</a>
-            <a href="#" class="list-group-item">Ipsum</a>
-            <a href="#" class="list-group-item">Dolor</a>
-            <a href="#" class="list-group-item">Amet</a>
-            <a href="#" class="list-group-item">Lorem</a>
-            <ul class="pagination pagination-sm">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#">&laquo;</a>
-                </li>
-                <li class="page-item active">
-                  <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">4</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">5</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">&raquo;</a>
-                </li>
-              </ul>
+            <!-- Itera sobre os assuntos públicos, truncando o texto e exibindo detalhes -->
+            {% for assunto in page_obj_assuntos %}
+                <a href="{% url 'learningLogApp:assunto' assunto.id %}" class="list-group-item">
+                    {{ assunto.texto|truncatechars:95 }}
+                    <br>
+                    <small>Por {{ assunto.owner.username }} em {{ assunto.data_inicial|date:"d M Y" }}</small>
+                </a>
+            {% empty %}
+                <!-- Mensagem caso não haja assuntos públicos -->
+                <div class="list-group-item">Nenhum assunto público foi encontrado.</div>
+            {% endfor %}
+            <!-- Paginação para os assuntos públicos -->
+            <div class="mt-2">
+                <ul class="pagination pagination-sm justify-content-center">
+                    <!-- Links de paginação -->
+                    {% include "learningLogApp/pagination.html" with page_obj=page_obj_assuntos page_param="page_assuntos" %}
+                </ul>
+            </div>
         </div>
     </div>
 
-
+    <!-- Coluna para usuários cadastrados -->
     <div class="col-lg-4">
+        <!-- Agrupamento de itens para usuários cadastrados -->
         <div class="list-group">
+            <!-- Cabeçalho da lista -->
             <a href="#" class="list-group-item list-group-item-action active">Usuários cadastrados</a>
-            <a href="#" class="list-group-item">Sefirot</a>
-            <a href="#" class="list-group-item">Sefirot</a>
-            <a href="#" class="list-group-item">Sefirot</a>
-            <a href="#" class="list-group-item">Sefirot</a>
-            <a href="#" class="list-group-item">Sefirot</a>
-            <ul class="pagination pagination-sm">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#">&laquo;</a>
-                </li>
-                <li class="page-item active">
-                  <a class="page-link" href="#">1</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">3</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">4</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">5</a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">&raquo;</a>
-                </li>
-              </ul>
+            <!-- Itera sobre os usuários cadastrados -->
+            {% for user in page_obj_usuarios %}
+                <a href="#" class="list-group-item">{{ user.username }}</a>
+            {% empty %}
+                <!-- Mensagem caso não haja usuários cadastrados -->
+                <div class="list-group-item">Nenhum usuário cadastrado.</div>
+            {% endfor %}
+            <!-- Paginação para os usuários cadastrados -->
+            <ul class="pagination pagination-sm justify-content-center mt-2">
+                <!-- Links de paginação -->
+                {% include "learningLogApp/pagination.html" with page_obj=page_obj_usuarios page_param="page_usuarios" %}
+            </ul>
         </div>
     </div>
+
+    <!-- Espaço reservado para futura expansão -->
     <div class="col-lg-4">
         
     </div>

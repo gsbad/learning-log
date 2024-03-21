@@ -6,7 +6,7 @@
     <ul class="list-group">
     {% for assunto in assuntos %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
-            <a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto.texto }}</a>
+            <a href="{% url 'learningLogApp:assunto' assunto.id %}">{{ assunto.texto|truncatechars:155 }}</a>
             <span class="badge bg-primary rounded-pill">{{ assunto.entrada_set.all.count }}</span>
         </li>
     {% empty %}
