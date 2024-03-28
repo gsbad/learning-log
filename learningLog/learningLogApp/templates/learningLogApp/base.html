@@ -34,7 +34,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Área de autenticação: mostra opções baseadas no estado de autenticação do usuário. -->
                     {% if user.is_authenticated %}
-                        <li><a class="autenticado">Olá, {{ user.username }}.</a></li>
+                        <li><a class="autenticado" href="{% url 'users:perfil' %}">Olá, {{ user.username }}.</a></li>
                         <li>
                             <!-- Formulário de logout com token CSRF para segurança. -->
                             <form action="{% url 'users:logout' %}" method="post" class="navbar-form">

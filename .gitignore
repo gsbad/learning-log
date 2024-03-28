@@ -2,5 +2,6 @@ ll_env/
 learningLog/learningLog/__pycache__
 learningLog/learningLogApp/__pycache__
 learningLog/learningLogApp/migrations/__pycache__
+/home/gsbad/desenvolvimento/learning-log/learningLog/learningLog/settings.py
 *.pyc
 *.sqlite3

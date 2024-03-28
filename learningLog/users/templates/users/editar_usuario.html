@@ -1,0 +1,11 @@
+{% extends "learningLogApp/base.html" %}
+
+{% block content %}
+  <h1>Editar Usuário</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar Alterações</button>
+  </form>
+  <a href="{% url 'users:mudar_senha' %}">Alterar Senha</a>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "learningLogApp/base.html" %}
+
+{% block content %}
+<h1>Perfil do Usuário</h1>
+
+
+<p>Usuário: {{ request.user }}</p>
+<p>Nome:    {{ request.user.first_name }} {{ request.user.last_name }}</p>
+<p>Email:   {{ request.user.email }}</p>
+
+<a href="{% url 'users:editar_usuario' %}">[ Editar Usuário ]</a>
+
+<!-- Outras informações do perfil que você desejar incluir -->
+{% endblock %}

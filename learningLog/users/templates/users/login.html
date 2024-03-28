@@ -4,7 +4,7 @@
 {% block header %}
     <h2>Faça Login na sua conta</h2>
 {% endblock header %}
-{% block content %}
+{% block content %} 
     <!-- form login git-->
     <form method="post" action="{% url 'users:login' %}" class="form">
     {% csrf_token %}
